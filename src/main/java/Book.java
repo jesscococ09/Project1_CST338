@@ -2,7 +2,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * [Brief one-sentence description of what this class does.]
+ * Defines a book object with key attributes
+ * and methods for comparison, access, and display
  *
  * @author Jessika Torrealba
  * @version 0.1.0
