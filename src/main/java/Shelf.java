@@ -1,6 +1,7 @@
 import Utilities.Code;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -101,8 +102,26 @@ public class Shelf {
         return Code.SUCCESS;
     }
     public String listBooks(){
-
+        StringBuilder sb = new StringBuilder();
+        String plural;
+        int total=0;
+        for(Book book:books.keySet()){
+            total+=books.get(book);
+        }
+        if(total==1){
+            plural = "book";
+        }else{
+            plural = "books";
+        }
+        sb.append(total).append(" ").append(plural)
+                .append(" on shelf: ").append(selfNumber)
+                .append(" : ").append(subject).append("\n");
+        for(Map.Entry<Book, Integer> entry:books.entrySet()){
+            Book book = entry.getKey();
+            int copies = entry.getValue();
+            sb.append(book.toString()).append(" ").append(copies).append("\n");
+        }
+        return sb.toString();
     }
-
 
 }
