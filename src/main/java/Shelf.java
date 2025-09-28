@@ -1,6 +1,7 @@
 import Utilities.Code;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * [Brief one-sentence description of what this class does.]
@@ -10,18 +11,15 @@ import java.util.HashMap;
  * @since 9/28/2025
  */
 public class Shelf {
-    public final int SHELF_NUMBER=0;
-    public final int SUBJECT_=1;
+    public static final int SHELF_NUMBER=0;
+    public static final int SUBJECT_=1;
 
-    private final HashMap<Book, Integer> books;
-    private final int selfNumber;
-    private final String subject;
+    private HashMap<Book, Integer> books;
+    private int selfNumber;
+    private String subject;
+
 //deprecated constructor
     public Shelf() {
-        this.books = new HashMap<>();
-        this.selfNumber=-1;
-        this.subject= null;
-
     }
     public Shelf(int selfNumber, String subject) {
         this.selfNumber = selfNumber;
@@ -29,8 +27,51 @@ public class Shelf {
         this.books = new HashMap<>();
     }
 
+    public HashMap<Book, Integer> getBooks() {
+        return books;
+    }
+
+    public void setBooks(HashMap<Book, Integer> books) {
+        this.books = books;
+    }
+
+    public int getSelfNumber() {
+        return selfNumber;
+    }
+
+    public void setSelfNumber(int selfNumber) {
+        this.selfNumber = selfNumber;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Shelf shelf = (Shelf) o;
+        return getSelfNumber() == shelf.getSelfNumber() && Objects.equals(getSubject(), shelf.getSubject());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSelfNumber(), getSubject());
+    }
+
+    @Override
+    public String toString() {
+        return selfNumber+" : "+ subject;
+    }
     public int getBookCount(Book book) {
-        return books.getOrDefault(book, 0);
+        if(book==null || !books.containsKey(book)){
+            return -1;
+        }
+        return books.get(book);
     }
     public Code addBook(Book book) {
         if(book==null){
@@ -43,24 +84,5 @@ public class Shelf {
         return Code.SUCCESS;
     }
 
-    public HashMap<Book, Integer> getBooks() {
-        return books;
-    }
 
-    public int getSelfNumber() {
-        return selfNumber;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-    public void setBooks(HashMap<Book, Integer> books) {
-
-    }
-    public void setSelfNumber(int selfNumber) {
-
-    }
-    public void setSubject(String subject) {
-
-    }
 }
