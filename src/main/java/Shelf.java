@@ -81,7 +81,27 @@ public class Shelf {
             return Code.SHELF_SUBJECT_MISMATCH_ERROR;
         }
         books.put(book, getBookCount(book) + 1);
+        System.out.printf("%s %s %s",book.toString()," added to shelf " ,this.toString());
         return Code.SUCCESS;
+    }
+    public Code removeBook(Book book) {
+        if(book==null){
+            return Code.UNKNOWN_ERROR;
+        }
+        if(!books.containsKey(book)){
+            System.out.printf("%s %s %s",book.getTitle(),"is not on shelf",subject);
+            return Code.BOOK_NOT_IN_INVENTORY_ERROR;
+        }
+        if(getBookCount(book)==0){
+            System.out.printf("%s %s %s %s","No copies of ",book.getTitle()," remain on the self ",subject);
+            return Code.BOOK_NOT_IN_INVENTORY_ERROR;
+        }
+        books.put(book, getBookCount(book) - 1);
+        System.out.printf("%s %s %s",book.getTitle(),"successfully removed from shelf ",subject);
+        return Code.SUCCESS;
+    }
+    public String listBooks(){
+
     }
 
 
