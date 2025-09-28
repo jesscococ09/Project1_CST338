@@ -16,14 +16,15 @@ public class Shelf {
     public static final int SUBJECT_=1;
 
     private HashMap<Book, Integer> books;
-    private int selfNumber;
+    private int shelfNumber;
     private String subject;
 
 //deprecated constructor
     public Shelf() {
+        this.books = new HashMap<>();
     }
     public Shelf(int selfNumber, String subject) {
-        this.selfNumber = selfNumber;
+        this.shelfNumber = selfNumber;
         this.subject = subject;
         this.books = new HashMap<>();
     }
@@ -35,13 +36,12 @@ public class Shelf {
     public void setBooks(HashMap<Book, Integer> books) {
         this.books = books;
     }
-
-    public int getSelfNumber() {
-        return selfNumber;
+    public int getShelfNumber() {
+        return shelfNumber;
     }
 
-    public void setSelfNumber(int selfNumber) {
-        this.selfNumber = selfNumber;
+    public void setShelfNumber(int selfNumber) {
+        this.shelfNumber = selfNumber;
     }
 
     public String getSubject() {
@@ -56,17 +56,17 @@ public class Shelf {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Shelf shelf = (Shelf) o;
-        return getSelfNumber() == shelf.getSelfNumber() && Objects.equals(getSubject(), shelf.getSubject());
+        return getShelfNumber() == shelf.getShelfNumber() && Objects.equals(getSubject(), shelf.getSubject());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSelfNumber(), getSubject());
+        return Objects.hash(getShelfNumber(), getSubject());
     }
 
     @Override
     public String toString() {
-        return selfNumber+" : "+ subject;
+        return shelfNumber+" : "+ subject;
     }
     public int getBookCount(Book book) {
         if(book==null || !books.containsKey(book)){
@@ -81,7 +81,12 @@ public class Shelf {
         if(!book.getSubject().equals(subject)){
             return Code.SHELF_SUBJECT_MISMATCH_ERROR;
         }
-        books.put(book, getBookCount(book) + 1);
+        int count=getBookCount(book);
+        if(count==-1){
+            books.put(book,1);
+        }else{
+            books.put(book,count+1);
+        }
         System.out.printf("%s %s %s",book.toString()," added to shelf " ,this.toString());
         return Code.SUCCESS;
     }
@@ -114,7 +119,7 @@ public class Shelf {
             plural = "books";
         }
         sb.append(total).append(" ").append(plural)
-                .append(" on shelf: ").append(selfNumber)
+                .append(" on shelf: ").append(shelfNumber)
                 .append(" : ").append(subject).append("\n");
         for(Map.Entry<Book, Integer> entry:books.entrySet()){
             Book book = entry.getKey();
